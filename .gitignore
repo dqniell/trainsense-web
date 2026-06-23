@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Env / secrets
+.env
+.env.*
+
+# Vercel
+.vercel
+
+# OS
+.DS_Store
+
+# NOTE: public/ (prebuilt web app) and backend/instance/*.db are intentionally
+# committed — they are the deployed artifacts.

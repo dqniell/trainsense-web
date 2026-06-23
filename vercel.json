@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "if [ -n \"$MAPBOX_ACCESS_TOKEN\" ]; then sed -i \"s|MAPBOX_TOKEN_PLACEHOLDER|$MAPBOX_ACCESS_TOKEN|g\" public/_expo/static/js/web/*.js && echo 'Injected Mapbox token'; else echo 'WARNING: MAPBOX_ACCESS_TOKEN not set — map will not render'; fi",
+  "outputDirectory": "public",
+  "functions": {
+    "api/index.py": {
+      "includeFiles": "backend/**"
+    }
+  },
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index" }
+  ]
+}
