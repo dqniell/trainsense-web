@@ -908,6 +908,17 @@ def get_route_stations(route_id):
     stop_times_file = os.path.join(gtfs_dir, 'stop_times.txt')
     stops_file = os.path.join(gtfs_dir, 'stops.txt')
 
+    # Serverless / trimmed deploys don't ship the large stop_times.txt. Use the
+    # precomputed ordered-station lists instead (built by
+    # scripts/build_route_stations.py). Local keeps rebuilding from source.
+    precomputed_file = os.path.join(gtfs_dir, 'route_stations.json')
+    if not os.path.exists(stop_times_file) and os.path.exists(precomputed_file):
+        with open(precomputed_file, encoding='utf-8') as f:
+            stations = json.load(f).get(route_id, [])
+        return jsonify({'success': bool(stations),
+                        'data': stations,
+                        **({} if stations else {'error': 'No stations for this route'})})
+
     # 1. Find ALL trip_ids for this route
     trip_ids = []
     try:
